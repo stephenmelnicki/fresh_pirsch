@@ -12,16 +12,21 @@ to Pirsch Analytics.
 // in fresh.config.ts
 
 import { defineConfig } from "$fresh/server.ts";
-import pirschPlugin from "https://deno.land/x/fresh_pirsch@1.0.0/mod.ts";
+import {
+  pirschPlugin,
+  PirschPluginOptions,
+} from "https://deno.land/x/fresh_pirsch@0.1.2/mod.ts";
+
+const options: PirschPluginOptions = {
+  hostname: "<hostname>",
+  id: "<client_id>",
+  secret: "<access_key>",
+};
 
 export default defineConfig({
   plugins: [
     // ...
-    pirschPlugin({
-      hostname: "<hostname>",
-      id: "<client_id>",
-      secret: "<access_key>",
-    }),
+    pirschPlugin(options),
   ],
 });
 ```

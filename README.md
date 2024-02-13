@@ -18,13 +18,12 @@ import {
 } from "https://deno.land/x/fresh_pirsch@1.0.0/mod.ts";
 
 const options: PirschPluginOptions = {
-  // hostname of the website in pirsch
+  // in order to report analytics, you'll first have to provide the hostname,
+  // client id and secret you have configured via the Pirsch dashboard.
   hostname: "<hostname>",
-  // provide the id and secret of client created via
-  // https://dashboard.pirsch.io/settings/integration
   id: "<client_id>",
-  secret: "<secret or access_key>",
-  // filter any request that that may not need to be tracked
+  secret: "<client_secret or access_key>",
+  // filter out any requests that that you do not wish to track
   // i.e. favicon.ico, fonts, etc.
   filter: (req) => !req.url.includes("favicon.ico"),
 };

@@ -12,8 +12,7 @@ to Pirsch Analytics.
 // in fresh.config.ts
 
 import { defineConfig } from "$fresh/server.ts";
-import {
-  pirschPlugin,
+import pirschPlugin, {
   PirschPluginOptions,
 } from "https://deno.land/x/fresh_pirsch@0.1.2/mod.ts";
 

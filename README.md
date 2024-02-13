@@ -1,6 +1,6 @@
 # fresh_pirsch
 
-A Fresh plugin for server side processing of Pirsch Analytics.
+A Fresh plugin for server side processing of Pirsch Analytics.🍋🦕
 
 ## Usage
 

@@ -1,31 +1,23 @@
 name: ci
-
 on: [push, pull_request]
 
 jobs:
-  test:
-    name: ga-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
+  deno:
+    runs-on: ubuntu-latest
     steps:
-      - name: clone repository
+      - name: Clone Repository
         uses: actions/checkout@v4
 
-      - name: install deno
+      - name: Install Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
 
-      - name: format
+      - name: Check Formatting
         run: deno fmt --check
 
-      - name: lint
+      - name: Lint
         run: deno lint
 
-      # TODO: Re-enable tests
-      # - name: test
-      #   run: deno test --allow-net --allow-env --allow-hrtime
+      - name: Test
+        run: deno test --allow-net --allow-env

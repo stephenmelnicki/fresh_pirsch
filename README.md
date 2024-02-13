@@ -10,7 +10,7 @@ import { pirschPlugin } from "https://deno.land/x/fresh_pirsch@1.0.0/mod.ts";
 export default defineConfig({
   plugins: [
     // ...
-    pirschPlugin(id: "<client_id>", secret: "<access_key>"),
+    pirschPlugin(hostname: "hostname", id: "<client_id>", secret: "<access_key>"),
     // ...
   ]
 });

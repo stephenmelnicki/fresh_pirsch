@@ -1,4 +1,6 @@
 export interface PirschPluginOptions {
-  clientId: string;
-  clientSecret: string;
+  hostname?: string;
+  id?: string;
+  secret?: string;
+  filter?: (req: Request) => boolean;
 }

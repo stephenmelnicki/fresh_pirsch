@@ -1,15 +1,15 @@
-import { FreshContext, Pirsch, PirschHit } from "../deps.ts";
+import { FreshContext, PirschHit, PirschNodeApiClient } from "../deps.ts";
 
 export function createClient(
   hostname?: string,
   clientId?: string,
   clientSecret?: string,
-) {
+): PirschNodeApiClient | undefined {
   if (!hostname || !clientId || !clientSecret) {
     return;
   }
 
-  return new Pirsch({
+  return new PirschNodeApiClient({
     hostname,
     clientId,
     clientSecret,

@@ -1,4 +1,5 @@
-import { FreshContext, PirschHit, PirschNodeApiClient } from "../deps.ts";
+import type { FreshContext } from "$fresh/server.ts";
+import { type PirschHit, PirschNodeApiClient } from "pirsch-sdk";
 
 export function createClient(
   hostname?: string,

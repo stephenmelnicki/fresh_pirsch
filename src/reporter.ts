@@ -1,4 +1,4 @@
-import type { FreshContext } from "../deps.ts";
+import type { FreshContext } from "$fresh/server.ts";
 
 import { Queue } from "./queue.ts";
 import { createClient } from "./utils.ts";

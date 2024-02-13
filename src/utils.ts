@@ -1,5 +1,4 @@
-import { FreshContext } from "$fresh/server.ts";
-import { Pirsch, PirschHit } from "pirsch";
+import { FreshContext, Pirsch, PirschHit } from "../deps.ts";
 
 export function createClient(
   hostname?: string,

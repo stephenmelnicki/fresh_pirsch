@@ -1,4 +1,4 @@
-export interface PirschPluginOptions {
+export interface PirschOptions {
   hostname?: string;
   id?: string;
   secret?: string;

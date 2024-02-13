@@ -1,8 +1,8 @@
-import { type FreshContext } from "$fresh/server.ts";
+import type { FreshContext } from "../deps.ts";
 
 import { Queue } from "./queue.ts";
 import { createClient } from "./utils.ts";
-import { PirschPluginOptions } from "./types.ts";
+import { PirschOptions } from "./types.ts";
 
 interface Reporter {
   (
@@ -11,7 +11,7 @@ interface Reporter {
   ): void;
 }
 
-export function createReporter(options: PirschPluginOptions): Reporter {
+export function createReporter(options: PirschOptions): Reporter {
   const {
     hostname = Deno.env.get("PIRSCH_HOSTNAME"),
     id = Deno.env.get("PIRSCH_CLIENT"),

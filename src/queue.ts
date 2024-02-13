@@ -1,6 +1,9 @@
-import { FreshContext } from "$fresh/server.ts";
-import { PirschHit, PirschNodeApiClient } from "pirsch";
-import { delay } from "$std/async/mod.ts";
+import {
+  delay,
+  FreshContext,
+  PirschHit,
+  PirschNodeApiClient,
+} from "../deps.ts";
 
 import { createHit } from "./utils.ts";
 

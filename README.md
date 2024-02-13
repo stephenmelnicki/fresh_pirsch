@@ -12,14 +12,21 @@ to Pirsch Analytics.
 // in fresh.config.ts
 
 import { defineConfig } from "$fresh/server.ts";
-import pirschPlugin, {
+import {
+  pirschPlugin,
   PirschPluginOptions,
-} from "https://deno.land/x/fresh_pirsch@0.1.2/mod.ts";
+} from "https://deno.land/x/fresh_pirsch@1.0.0/mod.ts";
 
 const options: PirschPluginOptions = {
+  // hostname of the website in pirsch
   hostname: "<hostname>",
+  // provide the id and secret of client created via
+  // https://dashboard.pirsch.io/settings/integration
   id: "<client_id>",
-  secret: "<access_key>",
+  secret: "<secret or access_key>",
+  // filter any request that that may not need to be tracked
+  // i.e. favicon.ico, fonts, etc.
+  filter: (req) => !req.url.includes("favicon.ico"),
 };
 
 export default defineConfig({

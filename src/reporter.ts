@@ -1,17 +1,15 @@
-import { FreshContext } from "../deps.ts";
-
 import { Queue } from "./queue.ts";
-import { createClient } from "./utils.ts";
-import { PirschOptions } from "./types.ts";
+import { createClient, createHit } from "./utils.ts";
+import { PirschPluginOptions } from "./types.ts";
 
 interface Reporter {
   (
     request: Request,
-    context: FreshContext,
+    ip: string,
   ): void;
 }
 
-export function createReporter(options: PirschOptions): Reporter {
+export function createReporter(options: PirschPluginOptions): Reporter {
   const {
     hostname = Deno.env.get("PIRSCH_HOSTNAME"),
     id = Deno.env.get("PIRSCH_CLIENT"),
@@ -29,7 +27,7 @@ export function createReporter(options: PirschOptions): Reporter {
 
   return function report(
     request: Request,
-    context: FreshContext,
+    ip: string,
   ) {
     // if plugin options are not set, do not report
     if (!hostname || !id || !secret) {
@@ -41,6 +39,6 @@ export function createReporter(options: PirschOptions): Reporter {
       return;
     }
 
-    queue.push(request, context);
+    queue.push(createHit(request, ip));
   };
 }

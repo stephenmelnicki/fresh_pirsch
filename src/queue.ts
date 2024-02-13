@@ -1,11 +1,4 @@
-import {
-  delay,
-  FreshContext,
-  PirschHit,
-  PirschNodeApiClient,
-} from "../deps.ts";
-
-import { createHit } from "./utils.ts";
+import { delay, PirschHit, PirschNodeApiClient } from "../deps.ts";
 
 const UPLOAD_DELAY = 1000;
 
@@ -19,8 +12,8 @@ export class Queue {
     this.client = client;
   }
 
-  push(request: Request, context: FreshContext) {
-    this.items.push(createHit(request, context));
+  push(hit: PirschHit) {
+    this.items.push(hit);
 
     if (!this.uploading) {
       this.uploading = true;

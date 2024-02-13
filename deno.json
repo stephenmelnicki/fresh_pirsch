@@ -1,4 +1,8 @@
 {
+  "tasks": {
+    "fixture": "deno run -A --watch=static/,routes/ tests/fixture/dev.ts",
+    "test": "deno test -A --parallel --no-check"
+  },
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.6.3/",
     "preact": "https://esm.sh/preact@10.19.2",
@@ -6,5 +10,9 @@
     "pirsch-sdk": "npm:pirsch-sdk@2.5.0",
     "pirsch-sdk/": "npm:pirsch-sdk@2.5.0/",
     "$std/": "https://deno.land/std@0.211.0/"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   }
 }

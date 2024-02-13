@@ -1,27 +1,25 @@
 import { Plugin } from "../deps.ts";
 
 import { createReporter } from "./reporter.ts";
-import { PirschOptions } from "./types.ts";
+import { PirschPluginOptions } from "./types.ts";
 
-export function pirschPlugin(options: PirschOptions): Plugin {
+export function pirschPlugin(options: PirschPluginOptions): Plugin {
   const report = createReporter(options);
 
   return {
-    name: "pirsch-plugin",
+    name: "fresh-pirsch-plugin",
     middlewares: [{
       path: "/",
       middleware: {
         handler: async (req, ctx) => {
           let res;
-          let err;
 
           try {
             res = await ctx.next();
           } catch (error) {
-            err = error;
-            throw err;
+            throw error;
           } finally {
-            report(req, ctx);
+            report(req, ctx.remoteAddr.hostname);
           }
 
           return res;

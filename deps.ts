@@ -1,7 +1,4 @@
-export type {
-  FreshContext,
-  Plugin,
-} from "https://deno.land/x/fresh@1.6.3/server.ts";
+export type { Plugin } from "https://deno.land/x/fresh@1.6.3/server.ts";
 
 export { type PirschHit, PirschNodeApiClient } from "npm:pirsch-sdk@2.5.0";
 

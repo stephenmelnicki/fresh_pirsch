@@ -1,4 +1,4 @@
-import { FreshContext, PirschHit, PirschNodeApiClient } from "../deps.ts";
+import { PirschHit, PirschNodeApiClient } from "../deps.ts";
 
 export function createClient(
   hostname?: string,
@@ -16,10 +16,10 @@ export function createClient(
   });
 }
 
-export function createHit(request: Request, context: FreshContext): PirschHit {
+export function createHit(request: Request, ip: string): PirschHit {
   return {
     url: request.url,
-    ip: context.remoteAddr.hostname,
+    ip,
     dnt: request.headers.get("dnt"),
     user_agent: request.headers.get("user-agent")!,
     accept_language: request.headers.get("accept-language"),

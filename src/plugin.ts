@@ -1,4 +1,4 @@
-import type { Plugin } from "$fresh/server.ts";
+import { Plugin } from "../deps.ts";
 
 import { createReporter } from "./reporter.ts";
 import { PirschOptions } from "./types.ts";

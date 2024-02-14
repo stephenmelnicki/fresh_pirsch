@@ -1,38 +1,58 @@
-import { delay, PirschHit, PirschNodeApiClient } from "../deps.ts";
+import { delay, FreshContext, PirschNodeApiClient } from "../deps.ts";
+import { Message } from "./types.ts";
 
 const UPLOAD_DELAY = 1000;
 
-export class Queue {
-  private items: PirschHit[] = [];
-  private uploading = false;
+function toMessage(req: Request, ctx: FreshContext): Message {
+  return {
+    url: req.url,
+    socket: {
+      remoteAddress: ctx.remoteAddr.hostname,
+    },
+    headers: {
+      dnt: req.headers.get("dnt"),
+      "user-agent": req.headers.get("user-agent"),
+      "accept-language": req.headers.get("accept-language"),
+      referer: req.headers.get("referer"),
+    },
+  };
+}
 
-  private readonly client?: PirschNodeApiClient;
+export function createEnqueue(
+  hostname: string,
+  accessToken: string,
+  protocol: "https" | "http",
+) {
+  const client = new PirschNodeApiClient({
+    hostname,
+    protocol,
+    accessToken,
+  });
 
-  constructor(client?: PirschNodeApiClient) {
-    this.client = client;
-  }
+  const messages: Message[] = [];
+  let uploading = false;
 
-  push(hit: PirschHit) {
-    this.items.push(hit);
-
-    if (!this.uploading) {
-      this.uploading = true;
-      setTimeout(this.upload.bind(this), UPLOAD_DELAY);
-    }
-  }
-
-  private async upload() {
-    while (this.items.length > 0) {
-      const item = this.items.shift();
+  async function upload() {
+    while (messages.length > 0) {
+      const message = messages.shift();
 
       try {
-        await this.client?.hit(item!);
+        await client.hit(client.hitFromRequest(message));
       } catch (err) {
-        console.error(err);
+        console.error("error recording page view", err);
         await delay(UPLOAD_DELAY);
       }
     }
 
-    this.uploading = false;
+    uploading = false;
   }
+
+  return function enqueue(req: Request, ctx: FreshContext) {
+    messages.push(toMessage(req, ctx));
+
+    if (!uploading) {
+      uploading = true;
+      setTimeout(upload, UPLOAD_DELAY);
+    }
+  };
 }

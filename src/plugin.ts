@@ -4,7 +4,14 @@ import { createReporter } from "./reporter.ts";
 import { PirschPluginOptions } from "./types.ts";
 
 export function pirschPlugin(options: PirschPluginOptions): Plugin {
-  const report = createReporter(options);
+  const {
+    hostname = Deno.env.get("PIRSCH_HOSTNAME"),
+    accessToken = Deno.env.get("PIRSCH_TOKEN"),
+    protocol = "https",
+    filter = () => true,
+  } = options;
+
+  const report = createReporter(hostname, accessToken, protocol, filter);
 
   return {
     name: "fresh-pirsch-plugin",
@@ -19,7 +26,7 @@ export function pirschPlugin(options: PirschPluginOptions): Plugin {
           } catch (error) {
             throw error;
           } finally {
-            report(req, ctx.remoteAddr.hostname);
+            report(req, ctx);
           }
 
           return res;

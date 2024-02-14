@@ -1,44 +1,34 @@
-import { Queue } from "./queue.ts";
-import { createClient, createHit } from "./utils.ts";
-import { PirschPluginOptions } from "./types.ts";
+import { FreshContext, Protocol } from "../deps.ts";
+import { createEnqueue } from "./queue.ts";
 
 interface Reporter {
   (
-    request: Request,
-    ip: string,
+    req: Request,
+    ctx: FreshContext,
   ): void;
 }
 
-export function createReporter(options: PirschPluginOptions): Reporter {
-  const {
-    hostname = Deno.env.get("PIRSCH_HOSTNAME"),
-    id = Deno.env.get("PIRSCH_CLIENT"),
-    secret = Deno.env.get("PIRSCH_SECRET"),
-    filter = () => true,
-  } = options;
-
-  if (!hostname || !id || !secret) {
+export function createReporter(
+  hostname: string | undefined,
+  accessToken: string | undefined,
+  protocol: Protocol,
+  filter: (req: Request) => boolean,
+): Reporter {
+  if (!hostname || !accessToken) {
     console.log(
-      "PIRSCH_HOSTNAME, PIRSCH_CLIENT, and PIRSCH_SECRET environment variables not set. Pirsch reporting disabled.",
+      "Pirsch hostname and access token not provided. Reporting disabled.",
     );
+    return () => {};
   }
 
-  const queue = new Queue(createClient(hostname, id, secret));
+  const enqueue = createEnqueue(hostname, accessToken, protocol);
 
-  return function report(
-    request: Request,
-    ip: string,
-  ) {
-    // if plugin options are not set, do not report
-    if (!hostname || !id || !secret) {
-      return;
-    }
-
+  return function report(req: Request, ctx: FreshContext) {
     // do not report any filtered requests
-    if (!filter(request)) {
+    if (!filter(req)) {
       return;
     }
 
-    queue.push(createHit(request, ip));
+    enqueue(req, ctx);
   };
 }

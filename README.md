@@ -15,15 +15,16 @@ import { defineConfig } from "$fresh/server.ts";
 import {
   pirschPlugin,
   PirschPluginOptions,
-} from "https://deno.land/x/fresh_pirsch@1.0.0/mod.ts";
+} from "https://deno.land/x/fresh_pirsch@1.0.1/mod.ts";
 
 const options: PirschPluginOptions = {
-  // in order to report analytics, you'll first have to provide the hostname,
-  // client id and secret you have configured via the Pirsch dashboard.
+  // in order to report analytics, you'll first have to provide the hostname
+  // and access key you have configured via the Pirsch dashboard.
   hostname: "<hostname>",
-  id: "<client_id>",
-  secret: "<client_secret or access_key>",
-  // filter out any requests that that you do not wish to track
+  accessToken: "<access_key>",
+  // "http" or "https" (will default to https)
+  protocol: "https",
+  // filter out any requests that that you don't want to track
   // i.e. favicon.ico, fonts, etc.
   filter: (req) => !req.url.includes("favicon.ico"),
 };

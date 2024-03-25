@@ -7,7 +7,8 @@ function toMessage(req: Request, ctx: FreshContext): Message {
   return {
     url: req.url,
     socket: {
-      remoteAddress: ctx.remoteAddr.hostname,
+      remoteAddress: req.headers.get("x-forwarded-for") ||
+        ctx.remoteAddr.hostname,
     },
     headers: {
       dnt: req.headers.get("dnt"),
